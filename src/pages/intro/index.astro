@@ -1,0 +1,79 @@
+---
+import Layout from '$layouts/first/Layout.astro';
+import Header from '$components/first/Header.svelte';
+import Container from '$components/first/Container';
+import Card from '$components/first/Card';
+
+import people from '$data/simple.json';
+
+interface Lists {
+    userId: number;
+    id: number;
+    title: string;
+    completed: boolean;
+}
+
+let data: Lists[] = []; // data를 빈 배열로 초기화
+let loading: boolean = true; // 로딩 상태 추가
+
+try {
+    const res = await fetch('https://jsonplaceholder.typicode.com/todos/');
+    if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    data = await res.json();
+    console.log(data);
+    loading = false; // 데이터가 로드되면 로딩 상태를 false로 변경
+} catch (error) {
+    console.error('Failed to fetch data:', error);
+    loading = false; // 에러가 나면 로딩 상태를 false로 변경
+}
+---
+
+<Layout title="home">
+    <Header client:load />
+
+    <Card client:visible />
+    <Card client:only="react" />
+
+    <Container client:load />
+    <button data-confetti-button>Celebrate!</button>
+    <ul>
+        {
+            people.map((item) => (
+                <li>
+                    <p>{item.name}</p>
+                    <p>{item.email}</p>
+                </li>
+            ))
+        }
+    </ul>
+
+    <ul>
+        {
+            loading ? (
+                <p>Loading...</p>
+            ) : (
+                data.map((item: Lists) => (
+                    <li>
+                        <p>{item.title}</p>
+                    </li>
+                ))
+            )
+        }
+    </ul>
+</Layout>
+
+<script>
+    import { loadPage } from '$lib/utils';
+
+    loadPage();
+
+    // 페이지에서 컴포넌트 DOM을 찾습니다.
+    const buttons = document.querySelectorAll('button[data-confetti-button]');
+
+    // 버튼을 클릭하면 confetti를 실행하는 이벤트 리스너를 추가합니다.
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => console.log(1));
+    });
+</script>

@@ -1,0 +1,21 @@
+---
+const { href } = Astro.props;
+---
+
+<a href={href} class="text-blue-600 underline"><slot /> </a>
+
+<style is:global>
+    a {
+        color: red;
+    }
+</style>
+
+<script>
+    const links = document.querySelectorAll('a');
+
+    links.forEach((link) => {
+        link.addEventListener('click', () => {
+            alert();
+        });
+    });
+</script>

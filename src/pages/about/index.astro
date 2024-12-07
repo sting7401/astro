@@ -1,0 +1,17 @@
+---
+const { title = 'default' } = Astro.props;
+
+import LayoutAbout from '$layouts/first/LayoutAbout.astro';
+---
+
+<LayoutAbout title="타이틀 값">
+    <h1>about {title}</h1>
+</LayoutAbout>
+
+<script>
+    const heading = document.querySelector('h1') as HTMLHeadElement;
+
+    heading.addEventListener('click', () => {
+        console.log('heading clicked');
+    });
+</script>

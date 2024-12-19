@@ -2,7 +2,7 @@
 export default {
     plugins: {
         content: ['./src/**/*.{svelte,js,ts,jsx,tsx,html}'],
-        tailwindcss: { config: './tailwind.config.js' },
+        tailwindcss: { config: './tailwind.config.ts' },
         autoprefixer: {},
     },
 };

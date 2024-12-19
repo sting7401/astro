@@ -6,7 +6,6 @@ import js from '@eslint/js';
 import svelte from 'eslint-plugin-svelte';
 import prettier from 'eslint-config-prettier';
 import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
-import litA11yRecommended from 'lit-a11y/recommended';
 import tsParser from '@typescript-eslint/parser';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -14,9 +13,6 @@ import tailwindPlugin from 'eslint-plugin-tailwindcss';
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
-    {
-        ignores: ['build/', '.svelte-kit/', 'dist/', '.astro/', 'node_modules/*', 'examples', 'lib'],
-    },
     { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx,astro,svelte}'] },
     ...eslintPluginAstro.configs.recommended,
     eslint.configs.recommended,
@@ -30,7 +26,6 @@ export default [
     litA11yRecommended,
     prettier,
     ...svelte.configs['flat/prettier'],
-    // pluginReact.configs.flat.recommended,
     prettierPluginRecommended,
     {
         languageOptions: {
@@ -42,7 +37,15 @@ export default [
         },
     },
     {
-        files: ['**/*.{js,mjs,cjs,ts,jsx,tsx,svelte,astro}'],
+        languageOptions: {
+            parserOptions: {
+                parser: tseslint.parser,
+            },
+            globals: { ...globals.browser },
+        },
+    },
+    {
+        ignores: ['build/', '.svelte-kit/', 'dist/', 'node_modules/*', 'examples', 'lib'],
     },
 ];
 
